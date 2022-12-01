@@ -15,8 +15,8 @@ namespace United.NoteApp.DataAccess.Concrete.EntityFramework
         {
 
         }
-        DbSet<User> Users { get; set; }
-        DbSet<Note> Notes { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Note> Notes { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -11,7 +11,7 @@ namespace United.NoteApp.DataAccess.Abstract
     public interface IEntityRepository<TEntity> where TEntity : class, IEntity, new()
     {
         TEntity Add(TEntity entity);
-        TEntity Delete(TEntity entity);
+        void Delete(TEntity entity);
         TEntity Update(TEntity entity);
         TEntity Get(Expression<Func<TEntity, bool>> filter);
         List<TEntity> GetAll(Expression<Func<TEntity, bool>> filter = null);

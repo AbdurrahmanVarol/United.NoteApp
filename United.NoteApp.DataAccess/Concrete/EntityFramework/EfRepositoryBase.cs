@@ -15,8 +15,6 @@ namespace United.NoteApp.DataAccess.Concrete.EntityFramework
         where TEntity : class, IEntity, new()
         where TContext : DbContext, new()
     {
-
-
         public TEntity Add(TEntity entity)
         {
             using (var context = new TContext())
@@ -29,14 +27,13 @@ namespace United.NoteApp.DataAccess.Concrete.EntityFramework
 
         }
 
-        public TEntity Delete(TEntity entity)
+        public virtual void Delete(TEntity entity)
         {
             using (var context = new TContext())
             {
                 var deletedEntity = context.Entry(entity);
                 deletedEntity.State = EntityState.Deleted;
                 context.SaveChanges();
-                return entity;
             }
         }
 

@@ -13,16 +13,18 @@
 </head>
 <body>
     <div class="container">
-        <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Email address</label>
-            <input type="text" class="form-control" id="UserName">
-        </div>
-        <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Password</label>
-            <input type="password" class="form-control" id="Password">
-        </div>
-        <button class="btn btn-primary" onclick="login()">Login</button>
-        <a href="/login/register" class="btn btn-primary">Register</a>
+        <form action="/login/login" method="post">
+            <div class="mb-3">
+                <label for="exampleInputEmail1" class="form-label">Email address</label>
+                <input type="text" class="form-control" id="UserName" name="UserName">
+            </div>
+            <div class="mb-3">
+                <label for="exampleInputPassword1" class="form-label">Password</label>
+                <input type="password" class="form-control" id="Password" name="Password">
+            </div>
+            <button class="btn btn-primary" type="submit">Login</button>
+            <a href="/login/register" class="btn btn-primary">Register</a>
+        </form>
     </div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
     <script src=@Url.Content("https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js") integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>

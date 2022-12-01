@@ -11,13 +11,18 @@ using United.NoteApp.MVC.Models;
 
 namespace United.NoteApp.MVC.Controllers
 {
+    [Route("[controller]/[action]/{id?}")]
     public class HomeController : Controller
     {
         private readonly INoteService _noteService = new NoteManager(new EfNoteDal());
-        [HttpGet]
+
         public ActionResult Index()
         {
-            int id = Convert.ToInt32(Request.Cookies["UserId"].Value);
+            var cookie = Request.Cookies["UserId"].Value;
+            if (string.IsNullOrEmpty(cookie))
+                return RedirectToAction("login", "login");
+
+            var id = Convert.ToInt32(cookie);
             var notes = _noteService.GetByUserId(id);
             return View(notes);
         }
@@ -25,7 +30,13 @@ namespace United.NoteApp.MVC.Controllers
         [HttpGet]
         public JsonResult GetNotes()
         {
-            return Json("", JsonRequestBehavior.AllowGet);
+            var cookie = Request.Cookies["UserId"].Value;
+            if (string.IsNullOrEmpty(cookie))
+                return Json("", JsonRequestBehavior.AllowGet);
+
+            var id = Convert.ToInt32(cookie);
+            var notes = _noteService.GetByUserId(id);
+            return Json(notes, JsonRequestBehavior.AllowGet);
         }
         [HttpPost]
         public JsonResult AddNote(NoteModel noteModel)
@@ -35,13 +46,13 @@ namespace United.NoteApp.MVC.Controllers
             {
                 Title = noteModel.Title,
                 Description = noteModel.Description,
+                ParentId = noteModel.ParentId,
                 UserId = userId
             };
             _noteService.Add(note);
 
-            
-            var notes = _noteService.GetByUserId(userId);
-            return Json(notes, JsonRequestBehavior.AllowGet);
+
+            return GetNotes();
         }
         [HttpGet]
         public JsonResult DeleteNote(int id)
@@ -49,9 +60,7 @@ namespace United.NoteApp.MVC.Controllers
             Note note = _noteService.GetById(id);
             _noteService.Delete(note);
 
-            int userId = Convert.ToInt32(Request.Cookies["UserId"].Value);
-            var notes = _noteService.GetByUserId(userId);
-            return Json(notes, JsonRequestBehavior.AllowGet);
+            return GetNotes();
         }
     }
 }
